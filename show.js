@@ -24,7 +24,7 @@ function drawNum(context,points) {
 let points=[];
 
 function drawFireWork(context){
-  let firewok=new Firework({x:100,y:500},{x:200,y:100},'#a04940',10);
+  let firewok=new Firework({x:100,y:500},{x:200,y:100},'#c85179',5);
   draw(context);
   function draw(context){
     let res=firewok.changeState().getSparks();

@@ -4,7 +4,7 @@ import Point from '../points'
  * 烟花的点只需要在原位置变小变淡就可以
  */
 export default class FirePoints extends Point{
-  constructor(position, color, size, narrow = 0.05){
+  constructor(position, color, size, narrow = 0.1){
     super();
     this.position=position;
     this.color=color;
