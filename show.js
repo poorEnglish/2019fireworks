@@ -12,7 +12,7 @@ let cacheContext=utils.getContext(cacheCanvas);
 let father={
   points:[]
 };
-// drawMultiNum(2019,father);
+drawMultiNum(2019,father);
 
 function drawNum(context,father) {
   window.requestAnimationFrame(() => {
@@ -44,7 +44,7 @@ function drawNum(context,father) {
 
 
 function drawFireWork(context){
-  let firewok=new Firework({x:100,y:500},{x:200,y:100},'#f8b1a9',2.5);
+  let firewok=new Firework({x:100,y:500},{x:200,y:100},'#f8b1a9',8);
   draw(context);
   function draw(context){
     let points =father.points;
@@ -53,10 +53,13 @@ function drawFireWork(context){
     father.points=points.filter(item=>{
       return item.size>0;
     });
-    if(points.length>0){
-      points.forEach(item=>{
+    if(father.points.length>0){
+      console.log(father.points.length);
+      // context.beginPath();
+      father.points.forEach(item=>{
         item.changeState().render(context)
       })
+      context.stroke();
       ctx.drawImage(cacheCanvas, 0, 0, 800, 800);
       window.requestAnimationFrame(()=>{
         context.clearRect(0, 0, 800, 800);

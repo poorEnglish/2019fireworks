@@ -16,7 +16,6 @@ export default class Spark {
     if (this.size > 0) context.arc(x, y, this.size, 0, Math.PI * 2);
     context.fill();
     context.closePath();
-    context.stroke();
   }
 
   changeAlpha(num) {
