@@ -48,17 +48,17 @@ export default {
         y:y+i*(GAP/6)-GAP/2
       })
     }
-    let func = lineNum==1?getSingleOffsetedPointss:getDoubleOffsetPointss
+    let func = lineNum==1?getSingleOffsetedPoints:getDoubleOffsetPoints
     return guns.reduce((p,c)=>{
       return p.concat(func(c))
     },[])
 
-    function getSingleOffsetedPointss(num){
+    function getSingleOffsetedPoints(num){
       let settings=OFFSET.get(num);
       return getPoints(settings);
     }
 
-    function getDoubleOffsetPointss(num){
+    function getDoubleOffsetPoints(num){
       let settings = OFFSET.get(num);
       return getPoints(settings,{x:0,y:0,delay:0}).concat(getPoints(settings,{x:0,y:16.7,delay:-0.17},{x:16.7,y:0,delay:0}))
     }

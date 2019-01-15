@@ -19,12 +19,12 @@ export default class Spark {
     context.stroke();
   }
 
-  changeAlpha() {
+  changeAlpha(num) {
     if (this.color.startsWith('#')) {
       this.color = utils.colorTransfer(this.color);
     } else {
       this.color = this.color.replace(/,([0-9\.]+)\)/, (...args) => {
-        return `,${args[1]-0.015})`
+        return `,${args[1]-num})`
       })
     }
   }

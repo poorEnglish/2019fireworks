@@ -1,7 +1,7 @@
 //电子显示数字时，把数字简化成‘日’形，把‘日’形的笔画从上-右-下-左-中分解成三横四竖，NUMS里记录的是各个数字需要的比划
 export const NUMS = new Map([
   [0, [1, 2, 3, 4, 5, 6]],
-  [1, [2, 3]],
+  [1, [5, 6]],
   [2, [1, 2, 4, 5, 7]],
   [3, [1, 2, 3, 4, 7]],
   [4, [2, 3, 6, 7]],
@@ -55,7 +55,7 @@ export const OFFSET = new Map([
     lineName: 'col',
     offset: {
       x: -GAP / 2,
-      y: GAP / 2
+      y: GAP / 2 +16.5
     },
     extraDelay: getLiner(0,-0.17,7),
     hand: 'left'

@@ -15,7 +15,7 @@ export default class FirePoints extends Point{
   changeState() {
       // this.position.y += 1;
     this.size -= this.narrow;
-    this.changeAlpha();
+    this.changeAlpha(0.05);
     return this;
   }
 }

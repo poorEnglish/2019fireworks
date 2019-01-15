@@ -8,14 +8,26 @@ import {
 
 let colors = COLORS.warm;
 let len = colors.length;
+let startx=0;
+const gap=[150,150,190,110];
 
-
-function getNumberPoint(startPoint, number, lineNum) {
+function getNumberPoint(startPoint, number, lineNum,duration=2,delay=2) {
   let points = utils.getPointsPositions(startPoint, number, lineNum);
   let numPoints = points.map(endPoint => {
-    return new Points(startPoint, endPoint, colors[Math.floor(Math.random() * len)], 6, 2, 2 + endPoint.delay * 2);
+    return new Points(startPoint, endPoint, colors[Math.floor(Math.random() * len)], 6, duration, delay + endPoint.delay * 2);
   })
   return numPoints;
 }
 
-export default getNumberPoint;
+function drawMultiNum(num,father){
+  let numbers=num.toString().split('');
+
+  numbers.forEach((item,index)=>{
+    setTimeout(()=>{
+      startx+=gap[index];
+      father.points=father.points.concat(getNumberPoint({x:startx,y:200},parseInt(item),2,2,8));
+    },500*index)
+  })
+}
+
+export default drawMultiNum;

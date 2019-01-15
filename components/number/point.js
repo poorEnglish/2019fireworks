@@ -41,7 +41,7 @@ export default class NumberPoint extends Point{
     } else if (this.count > this.stopCount) {
       this.position.y += 1;
       this.size -= this.narrow;
-      this.changeAlpha();
+      this.changeAlpha(0.015);
     }
     return this;
   }

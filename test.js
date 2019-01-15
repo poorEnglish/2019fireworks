@@ -1,3 +1,9 @@
-import utils from './utils/utils'
+// import utils from './utils/utils'
 
-console.log(utils.getSparkPositions({x:100,y:100},4))
+setTimeout(()=>{
+  console.log(1);
+},500);
+
+setTimeout(()=>{
+  console.log(2);
+},100)
