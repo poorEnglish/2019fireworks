@@ -10,11 +10,11 @@ export default class RectPoints extends FirePoints {
       y
     } = this.position;
     context.fillStyle = this.color;
-    context.beginPath();
+    // context.beginPath();
     if (this.size > 0) {
       context.fillRect(x, y, this.size, this.size * 1.5);
     }
-    context.closePath();
+    // context.closePath();
   }
 
 }

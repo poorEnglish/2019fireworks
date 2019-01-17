@@ -78,7 +78,7 @@ export default class Firework {
       x: speed.x > 0 ? speed.x - 0.01 : speed.x + 0.01,
       y: speed.y + this.y_v
     }
-    item.size = size - 0.005;
+    item.size = size - 0.003;
   }
 
   //暂定设为需要2秒到达地点
@@ -100,8 +100,8 @@ export default class Firework {
       for (let i = 0; i < sinAngles.length; i++) {
         this.sparks.push({
           speed: {
-            x: sinAngles[i]*fenmu*utils.randomArea(0.75,1.25),
-            y: cosAngles[i]*fenmu*utils.randomArea(0.75,1.25)
+            x: sinAngles[i]*fenmu*utils.randomArea(0.8,1.2),
+            y: cosAngles[i]*fenmu*utils.randomArea(0.8,1.2)
           },
           position: this.position,
           // exitCount: rand * ct

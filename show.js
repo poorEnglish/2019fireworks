@@ -13,20 +13,19 @@ let cacheContext=utils.getContext(cacheCanvas);
 let father={
   points:[]
 };
-let firewoks=[]
-
+let firewoks=[];
+let width=700, height=400;
+let aniId='',addId;
 
 
 
 drawMultiNum(2019,father);
 firewoks.push(new Firework({x:100,y:500},{x:200,y:100},'#f8b1a9',3));
 drawFireWork(cacheContext);
-setInterval(addFirework,800)
-
-
 
 
 function drawFireWork(context){  
+  addId=setInterval(addFirework,500);
   draw(context);
   function draw(context){
     father.points= getPointsByFireWorks(firewoks,father);
@@ -36,7 +35,7 @@ function drawFireWork(context){
       })
       context.stroke();
       ctx.drawImage(cacheCanvas, 0, 0, 800, 800);
-      window.requestAnimationFrame(()=>{
+      aniId=window.requestAnimationFrame(()=>{
         context.clearRect(0, 0, 800, 800);
         context.fillStyle='black';
         context.fillRect(0,0,800,800);
@@ -59,7 +58,7 @@ function getPointsByFireWorks(firewoks,father){
   });
 }
 
-let width=700, height=400;
+
 
 function addFirework(){
   let bottom={
@@ -70,11 +69,22 @@ function addFirework(){
     x:width*Math.round(Math.random()*100)/100,
     y:height*Math.round(Math.random()*100)/200+50
   }
- firewoks=firewoks.filter(item=>item.boomState<2);   
- firewoks.push(new Firework(bottom,top,colors[Math.floor(Math.random()*colors.length)],3));
+ firewoks=firewoks.filter(item=>item.boomState<2);  
+ if(firewoks.length>5) return; 
+ firewoks.push(new Firework(bottom,top,colors[Math.floor(Math.random()*colors.length)],2));
 }
 
-
+document.querySelector('button').addEventListener('click',(e)=>{
+  if(aniId){
+    window.cancelAnimationFrame(aniId);
+    clearInterval(addId||'');
+    aniId='';
+    e.target.innerText='开始'
+  }else{
+    drawFireWork(cacheContext);
+    e.target.innerText='暂停'
+  }
+})
 
 
 
