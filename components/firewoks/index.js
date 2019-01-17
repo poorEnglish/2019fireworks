@@ -1,10 +1,9 @@
 // const INTERVAL = 3; //每隔三次计数才返回要渲染的point
-const DURATION = 50 / 3 //这个是渲染间隔时间
-const SPARK_NUM = 70 //当作烟花炸开的数量
-const A = 16;      //考虑到空气阻力，重力加速度设为8
-const SPEED = 60;  //炸开后的基准速度
-const circle = 3;  //炸开的圈数
-import Point from './point'
+const A = 100;      //考虑到空气阻力，重力加速度设为16
+import Point from './point';
+import RectPoint from './rectPoints'
+import {detaTime,CIRCLE,ANGLES} from '../../constants'
+import utils from '../../utils/utils'
 export default class Firework {
   constructor(position, destination, color, size) {
     this.position = position;
@@ -15,6 +14,9 @@ export default class Firework {
     this.boomState = 0; // 0:未爆炸 1:已爆炸 2:结束
     this.count = 0;
     this.size = size;
+    this.y_v=A * detaTime
+    this.deta_y_d = parseFloat((1 / 2 * A * Math.pow(detaTime, 2)).toFixed(2));
+    this.changeSparkState=this.changeSparkState.bind(this);
   }
 
   /**
@@ -27,20 +29,17 @@ export default class Firework {
         x: this.position.x + this.step.x,
         y: this.position.y + this.step.y
       }
-    } else if (position.y < destination.y && !this.boomState) {
+    } else if (this.boomState === 0) {
       this.createSparks();
       this.boomState = 1;
-      this.size=2.8;
+      this.size=4;
     } else {
       this.size -= 0.05;
-      // let sparks = this.sparks.filter(item => {
-      //   return item.size>0
-      // })
-      if (this.sparks.length == 0) {
+      if ( this.size <=0  && this.boomState==1) {
         this.boomState = 2;
+        return this;
       }
       this.sparks.forEach(this.changeSparkState);
-      // this.sparks=sparks;
     }
     return this;
   }
@@ -53,7 +52,7 @@ export default class Firework {
     if (this.boomState == 0) {
       res.push(new Point(this.position, this.color, this.size))
     } else if (this.boomState == 1) {
-      res = this.sparks.map(item => new Point(item.position, this.color, this.size));
+      res = this.sparks.map(item => new RectPoint(item.position, this.color, this.size));
       // console.log(res);
     }
     // }
@@ -68,10 +67,8 @@ export default class Firework {
       size,
     } = item;
 
-    let time = parseFloat((DURATION * 3 / 1000).toFixed(2));
-    let y_v = A * time;
-    let y_d = parseFloat((speed.y * time + 1 / 2 * A * Math.pow(time, 2)).toFixed(2));
-    let x_d = parseFloat((speed.x * time).toFixed(2));
+    let y_d = speed.y * detaTime + this.deta_y_d;
+    let x_d = speed.x * detaTime;
     item.position = {
       x: position.x + x_d,
       y: position.y + y_d
@@ -79,7 +76,7 @@ export default class Firework {
 
     item.speed = {
       x: speed.x > 0 ? speed.x - 0.01 : speed.x + 0.01,
-      y: speed.y + y_v
+      y: speed.y + this.y_v
     }
     item.size = size - 0.005;
   }
@@ -87,35 +84,29 @@ export default class Firework {
   //暂定设为需要2秒到达地点
   getStep() {
     let { destination, position } = this;
-    let time = 1200;
     let x_d = destination.x - position.x;
     let y_d = destination.y - position.y;
-    let t = parseFloat((time / DURATION).toFixed(2));
     return {
-      x: x_d / t,
-      y: y_d / t
+      x: x_d / 90,
+      y: y_d / 90
     }
   }
 
   createSparks() {
-    let sPC = parseFloat((SPARK_NUM / circle).toFixed(2)); //spark num per circle
-    let perAngle = parseFloat((Math.PI / (sPC) * 2).toFixed(2));
-    let ct =parseFloat((2500 / DURATION).toFixed(2));
-    for (let j = 0; j < circle; j++) {
-      for (let i = 0; i < sPC; i++) {
-        let rand =parseFloat((Math.random() / 5 + 0.9).toFixed(2)); //0.8-1.2 
-        let ancle =parseFloat((perAngle * i * rand).toFixed(2));
+    let {sinAngles,cosAngles}=ANGLES;
+
+    for (let j = 0; j < CIRCLE; j++) {
+      let fenmu=(j+1)/CIRCLE.toFixed(2);
+      for (let i = 0; i < sinAngles.length; i++) {
         this.sparks.push({
           speed: {
-            x: parseFloat((SPEED * Math.sin(ancle) / (j + 1)).toFixed(2)),
-            y: parseFloat((SPEED * Math.cos(ancle) / (j + 1)).toFixed(2))
+            x: sinAngles[i]*fenmu*utils.randomArea(0.75,1.25),
+            y: cosAngles[i]*fenmu*utils.randomArea(0.75,1.25)
           },
           position: this.position,
           // exitCount: rand * ct
         });
       }
     }
-
   }
-
 }

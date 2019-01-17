@@ -1,8 +1,9 @@
 import utils from './utils/utils'
 import drawMultiNum from './components/number'
 import Firework from './components/firewoks'
+import {COLORS} from './constants'
 let ctx = utils.getContext('#canvas');
-
+let colors=COLORS.warm;
 //缓存canvas
 
 let cacheCanvas=utils.getCacheCanvas(800,800);
@@ -12,50 +13,24 @@ let cacheContext=utils.getContext(cacheCanvas);
 let father={
   points:[]
 };
+let firewoks=[]
+
+
+
+
 drawMultiNum(2019,father);
-
-function drawNum(context,father) {
-  window.requestAnimationFrame(() => {
-    context.clearRect(0, 0, 800, 800);
-    // size 小于零的火花去掉
-    father.points = father.points.filter(item => item.size > 0);
-    if (father.points.length > 0) {
-      father.points.forEach(s => {
-        s.changeState().render(context);
-      })
-      drawNum(context,father);
-    } else {
-      console.log('end');
-    }
-  })
-}
-
-// drawNum(ctx,father);
-
-// let timer=setTimeout(()=>{
-//   console.log(father);
-//   drawNum(ctx,father);
-//   clearTimeout(timer);
-// },0)
+firewoks.push(new Firework({x:100,y:500},{x:200,y:100},'#f8b1a9',3));
+drawFireWork(cacheContext);
+setInterval(addFirework,800)
 
 
 
 
-
-
-function drawFireWork(context){
-  let firewok=new Firework({x:100,y:500},{x:200,y:100},'#f8b1a9',8);
+function drawFireWork(context){  
   draw(context);
   function draw(context){
-    let points =father.points;
-    let res=firewok.changeState().getSparks();
-    points=points.concat(res);
-    father.points=points.filter(item=>{
-      return item.size>0;
-    });
-    if(father.points.length>0){
-      console.log(father.points.length);
-      // context.beginPath();
+    father.points= getPointsByFireWorks(firewoks,father);
+    if(father.points.length>0 ){
       father.points.forEach(item=>{
         item.changeState().render(context)
       })
@@ -73,4 +48,33 @@ function drawFireWork(context){
   }
 }
 
-drawFireWork(cacheContext);
+function getPointsByFireWorks(firewoks,father){
+  let newo = father.points;
+  father.points = null;
+  let points=firewoks.reduce((p,c)=>{
+    return p.concat(c.changeState().getSparks())
+  },newo);
+  return points.filter(item=>{
+    return item.size>0;
+  });
+}
+
+let width=700, height=400;
+
+function addFirework(){
+  let bottom={
+    x:width* Math.round(Math.random()*100)/100,
+    y:800
+  }
+  let top={
+    x:width*Math.round(Math.random()*100)/100,
+    y:height*Math.round(Math.random()*100)/200+50
+  }
+ firewoks=firewoks.filter(item=>item.boomState<2);   
+ firewoks.push(new Firework(bottom,top,colors[Math.floor(Math.random()*colors.length)],3));
+}
+
+
+
+
+

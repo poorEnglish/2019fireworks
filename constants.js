@@ -95,3 +95,25 @@ function getLiner(start, gap, length) {
   });
   return gap>0?arr:arr.reverse()
 }
+
+export const detaTime = parseFloat((50/3/ 1000).toFixed(2));
+
+export const SPEED = 130;  //炸开后的基准速度
+export const CIRCLE = 4;  //炸开的圈数
+export const SPARK_NUM = 96 //当作烟花炸开的数量
+
+export const ANGLES=getAngles(SPEED,SPARK_NUM,CIRCLE);
+
+function getAngles(SPEED,SPARK_NUM,circle){
+  let sinAngles=[],cosAngles=[];
+  let aPC=Math.ceil(SPARK_NUM/circle);
+  let perAncle=(Math.PI*2/aPC).toFixed(2);
+  for(let i=0;i<aPC;i++){
+    sinAngles.push(Math.sin(perAncle*i).toFixed(2)*SPEED);
+    cosAngles.push(Math.cos(perAncle*i).toFixed(2)*SPEED)
+  }
+  return {
+    sinAngles,
+    cosAngles
+  }
+}

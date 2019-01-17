@@ -9,8 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
-  "dependencies": {
-    "underscore": "^1.9.1"
-  }
+  "devDependencies": {}
 }

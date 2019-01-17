@@ -20,21 +20,17 @@ export default class FirePoints extends Point {
   }
 
   render(context) {
-    // context.fillStyle = this.color;
+    context.fillStyle = this.color;
     let {
       x,
       y
     } = this.position;
     context.strokeStyle = this.color;
     // context.moveTo(this.position.x, this.position.y);
+    // context.lineWidth=this.size;
     context.beginPath();
-    // if (this.size > 0) context.arc(x, y, this.size, 0, Math.PI * 2);
-    if (this.size > 0) {
-      context.moveTo(this.position.x, this.position.y);
-      context.fillRect(x, y, this.size, this.size * 2);
-    }
+    if (this.size > 0) context.arc(x, y, this.size, 0, Math.PI * 2);
     context.fill();
     context.closePath();
   }
-
 }

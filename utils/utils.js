@@ -93,6 +93,9 @@ export default {
     }else {
       return null;
     }
-  }
+  },
 
+  randomArea(min,max,fix=2){
+    return parseFloat((min+Math.random()*(max-min)).toFixed(fix));
+  }
 }
