@@ -33,7 +33,6 @@ function drawFireWork(context){
       father.points.forEach(item=>{
         item.changeState().render(context)
       })
-      context.stroke();
       ctx.drawImage(cacheCanvas, 0, 0, 800, 800);
       aniId=window.requestAnimationFrame(()=>{
         context.clearRect(0, 0, 800, 800);

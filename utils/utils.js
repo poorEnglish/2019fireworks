@@ -95,7 +95,9 @@ export default {
     }
   },
 
-  randomArea(min,max,fix=2){
-    return parseFloat((min+Math.random()*(max-min)).toFixed(fix));
+  randomArea(min,max,fix=2,random=false){
+    let rand=parseFloat((min+Math.random()*(max-min)).toFixed(fix));
+    if(!random) return rand;
+    return Math.random()>0.5?rand:-rand
   }
 }

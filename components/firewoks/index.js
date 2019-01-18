@@ -2,7 +2,7 @@
 const A = 100;      //考虑到空气阻力，重力加速度设为16
 import Point from './point';
 import RectPoint from './rectPoints'
-import {detaTime,CIRCLE,ANGLES} from '../../constants'
+import {detaTime,CIRCLE,ANGLES,SPEED} from '../../constants'
 import utils from '../../utils/utils'
 export default class Firework {
   constructor(position, destination, color, size) {
@@ -56,7 +56,6 @@ export default class Firework {
       // console.log(res);
     }
     // }
-
     return res;
   }
 
@@ -93,15 +92,19 @@ export default class Firework {
   }
 
   createSparks() {
+    // let sp=SPEED*SPEED;
     let {sinAngles,cosAngles}=ANGLES;
-
     for (let j = 0; j < CIRCLE; j++) {
       let fenmu=(j+1)/CIRCLE.toFixed(2);
       for (let i = 0; i < sinAngles.length; i++) {
+        // let x_s=SPEED*utils.randomArea(0,1,2,true);
+        // let y_s=Math.sqrt(sp-Math.pow(x_s,2));
         this.sparks.push({
           speed: {
             x: sinAngles[i]*fenmu*utils.randomArea(0.8,1.2),
             y: cosAngles[i]*fenmu*utils.randomArea(0.8,1.2)
+            // x:x_s*fenmu,
+            // y:(Math.random()>0.5?y_s:-y_s)*fenmu
           },
           position: this.position,
           // exitCount: rand * ct
